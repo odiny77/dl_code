@@ -1,2 +1,3 @@
 .DS_Store
 04_MNIST/data/
+04_MNIST/digit-recognizer/train.csv
