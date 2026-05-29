@@ -1,0 +1,6 @@
+{
+    "python.defaultInterpreterPath": "/Users/sakura/dl_env/bin/python",
+    "python.terminal.activateEnvironment": false,
+    "python.analysis.autoImportCompletions": true,
+    "cursorpyright.analysis.autoImportCompletions": true
+}
