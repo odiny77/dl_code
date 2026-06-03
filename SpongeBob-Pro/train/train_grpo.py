@@ -387,8 +387,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SpongeBob GRPO Training")
     
     # 训练参数
-    parser.add_argument("--save_dir", type=str, default="../out_grpo/exp_1")
-    parser.add_argument('--save_weight', default='grpo', type=str)
+    parser.add_argument("--save_dir", type=str, default="./out_grpo/exp_1") #要修改⭕️
+    parser.add_argument('--save_weight', default='grpo', type=str) 
     parser.add_argument("--epochs", type=int, default=900)
     parser.add_argument("--batch_size", type=int, default=16)
     parser.add_argument("--learning_rate", type=float, default=5e-7)
@@ -398,7 +398,7 @@ if __name__ == "__main__":
     parser.add_argument("--accumulation_steps", type=int, default=1)
     parser.add_argument("--grad_clip", type=float, default=0.2)
     parser.add_argument("--log_interval", type=int, default=1)
-    parser.add_argument("--save_interval", type=int, default=20)
+    parser.add_argument("--save_interval", type=int, default=50) #要修改⭕️
     
     # 模型配置
     parser.add_argument('--hidden_size', default=768, type=int)
@@ -407,21 +407,21 @@ if __name__ == "__main__":
     parser.add_argument("--max_gen_len", type=int, default=512)
     
     # 路径
-    parser.add_argument("--data_path", type=str, default="")
-    parser.add_argument("--tokenizer_path", type=str, default="../tokenizer_15k")
+    parser.add_argument("--data_path", type=str, default="/root/autodl-tmp/dl_code/SpongeBob-Pro/benchmark/mini_bench/200_test_shuffled.jsonl") #要修改⭕️
+    parser.add_argument("--tokenizer_path", type=str, default="/root/autodl-tmp/dl_code/SpongeBob-Pro/tokenizer_15k")#要修改⭕️
     parser.add_argument("--sft_model_path", type=str, 
-                       default="../out_think_distill/exp_1/h768_l12_bs128_lr2e-05/global_step_2971/sft_768.pth")
+                       default="/root/autodl-tmp/dl_code/SpongeBob-Pro/out_CoT/exp_1/h768_l12_bs128_lr2e-05/global_step_2971/cot_768.pth")#要修改⭕️
     
     # GRPO 参数
     parser.add_argument("--num_generations", type=int, default=4)
     parser.add_argument("--beta", type=float, default=0.05)
-    parser.add_argument("--judge_api_key", type=str, default='')
+    parser.add_argument("--judge_api_key", type=str, default='sk-375e66d7699c4b3bb692a0f7cd68fb0d')#要修改⭕️
     parser.add_argument("--judge_model", type=str, default="deepseek-chat")
     
     # 控制
     parser.add_argument('--from_resume', default=0, type=int, choices=[0, 1])
     parser.add_argument("--use_swanlab", type=int, default=1, choices=[0, 1])
-    parser.add_argument("--swanlab_project", type=str, default="SpongeBob-GRPO")
+    parser.add_argument("--swanlab_project", type=str, default="SpongeBob_PRO-GRPO")#要修改⭕️
     parser.add_argument("--use_compile", default=1, type=int, choices=[0, 1])
     
     args = parser.parse_args()
@@ -457,7 +457,7 @@ if __name__ == "__main__":
     swanlab_run = None
     if args.use_swanlab and is_main_process():
         import swanlab
-        swanlab.login(api_key="4jqfbuJs9zDRcLAMPoDQv")
+        swanlab.login(api_key="AEge4oFVQFrPL4ybtlKIF")#要修改⭕️
         swanlab_run = swanlab.init(project=args.swanlab_project, experiment_name=run_name,
                                    id=ckp_data.get('swanlab_id') if ckp_data else None, config=vars(args))
         Logger(f'SwanLab: {run_name}')

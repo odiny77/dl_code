@@ -121,8 +121,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SpongeBob SFT Training")
     # [SFT] 以下参数默认值与 pretrain.py 不同：save_dir, save_weight, epochs, data_path, from_weight, swanlab_project
     # [SFT] 新增参数：tokenizer_path, ollama_url, ollama_model
-    parser.add_argument("--save_dir", type=str, default="./out_sft/exp_1", help="模型保存目录")
-    parser.add_argument('--save_weight', default='sft', type=str, help="保存权重的前缀名")
+    parser.add_argument("--save_dir", type=str, default="./out_CoT/exp_1", help="模型保存目录")
+    parser.add_argument('--save_weight', default='cot', type=str, help="保存权重的前缀名")
     parser.add_argument("--epochs", type=int, default=2, help="训练轮数（SFT 推荐 2-3 epoch，过多会过拟合）")
     parser.add_argument("--batch_size", type=int, default=128, help="batch size")
     parser.add_argument("--learning_rate", type=float, default=2e-5, help="初始学习率（SFT 推荐 1e-5 ~ 1e-4，从预训练继续可用 5e-5）")
@@ -132,19 +132,19 @@ if __name__ == "__main__":
     parser.add_argument("--accumulation_steps", type=int, default=1, help="梯度累积步数")
     parser.add_argument("--grad_clip", type=float, default=1.0, help="梯度裁剪阈值")
     parser.add_argument("--log_interval", type=int, default=10, help="日志打印间隔")
-    parser.add_argument("--save_interval", type=int, default=5000, help="模型保存间隔")
+    parser.add_argument("--save_interval", type=int, default=1000, help="模型保存间隔")
     parser.add_argument('--hidden_size', default=768, type=int, help="隐藏层维度")
     parser.add_argument('--num_hidden_layers', default=12, type=int, help="隐藏层数量")
     parser.add_argument('--max_seq_len', default=512, type=int, help="序列长度")
-    parser.add_argument("--data_path", type=str, default="", help="SFT 数据 jsonl 路径") #要修改⭕️
+    parser.add_argument("--data_path", type=str, default="/root/autodl-tmp/dl_code/SpongeBob-Pro/thinking_distill.jsonl", help="SFT 数据 jsonl 路径") #要修改⭕️
     parser.add_argument("--tokenizer_path", type=str, default="/root/autodl-tmp/dl_code/SpongeBob-Pro/tokenizer_15k", help="tokenizer 路径")  # [SFT] 新增：SFTDataset 需要 tokenizer #要修改⭕️
-    parser.add_argument('--from_weight', default='', type=str, help="基于哪个权重训练，为 none 则从头开始") #要修改⭕️
+    parser.add_argument('--from_weight', default='/root/autodl-tmp/dl_code/SpongeBob-Pro/out_sft/global_step_26000/sft_768.pth', type=str, help="基于哪个权重训练，为 none 则从头开始") #要修改⭕️
     parser.add_argument('--from_resume', default=1, type=int, choices=[0, 1], help="是否自动检测&续训（0=否，1=是）")
     parser.add_argument("--use_swanlab", type=int, default=1, choices=[0, 1], help="是否使用 swanlab（0=否，1=是）")
     parser.add_argument("--swanlab_project", type=str, default="SpongeBob_PRO-CoT", help="swanlab 项目名")
     parser.add_argument("--use_compile", default=1, type=int, choices=[0, 1], help="是否使用 torch.compile 加速（0=否，1=是）")
     # [SFT] 新增：mini_bench 评测参数（使用 DeepSeek API）
-    parser.add_argument("--enable_eval", type=int, default=1, choices=[0, 1], help="是否启用评估（0=关闭，1=开启）")
+    parser.add_argument("--enable_eval", type=int, default=0, choices=[0, 1], help="是否启用评估（0=关闭，1=开启）")
     parser.add_argument("--eval_interval", type=int, default=1000, help="每隔多少 step 跑 mini_bench（0=关闭），用当前模型推理+DeepSeek Judge 打分")
     parser.add_argument("--judge_api_key", type=str, default='sk-375e66d7699c4b3bb692a0f7cd68fb0d', help="Judge API Key（可直接传入或从环境变量 DEEPSEEK_API_KEY 读取）") #要修改⭕️
     parser.add_argument("--judge_model", type=str, default="deepseek-chat", help="Judge 模型名")
